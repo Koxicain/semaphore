@@ -1,0 +1,8 @@
+---
+- name: Test Connection to Hosts
+  hosts: your_host_or_group
+  gather_facts: false
+
+  tasks:
+    - name: Ping hosts
+      ping:
