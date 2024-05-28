@@ -1,0 +1,15 @@
+---
+- name: Check SSH service status
+  hosts: your_host_or_group
+  gather_facts: false
+
+  tasks:
+    - name: Check SSH status
+      shell: systemctl status sshd
+      register: ssh_status
+      ignore_errors: true
+
+    - name: Show SSH status
+      debug:
+        msg: "{{ ssh_status.stdout_lines }}"
+
