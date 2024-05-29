@@ -1,6 +1,7 @@
 - hosts: all
 
   become: yes
+  sudo: True
   tasks:
     # Upgrade packages
     - name: upgrade apt packages
