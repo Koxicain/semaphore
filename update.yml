@@ -8,7 +8,7 @@
       become_method: sudo
       apt:
         upgrade: yes
-        update_cache: yes
+
 
     # Check if reboot is required
     - name: check if system reboot is required
