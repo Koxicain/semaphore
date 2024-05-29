@@ -1,5 +1,5 @@
 ---
-- hosts: jump
+- hosts: all
 become: true
 tasks:
     - name: Update packages with apt
