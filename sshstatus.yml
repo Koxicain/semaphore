@@ -1,6 +1,6 @@
 ---
 - name: Check SSH service status
-  hosts: your_host_or_group
+  hosts: JumpHost
   gather_facts: false
 
   tasks:
