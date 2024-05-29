@@ -1,14 +1,27 @@
 - hosts: all
   become: yes
   tasks:
+    - name: Ensure the apt package list lock is not held
+      shell: |
+        lsof /var/lib/apt/lists/lock && kill -9 $(lsof -t /var/lib/apt/lists/lock) || true
+      when: ansible_os_family == "Debian"
+
+    - name: Ensure the dpkg lock is not held
+      shell: |
+        lsof /var/lib/dpkg/lock && kill -9 $(lsof -t /var/lib/dpkg/lock) || true
+      when: ansible_os_family == "Debian"
+
     - name: Update and upgrade Debian-based systems
       block:
         - name: Update the package list
           apt:
             update_cache: yes
+            cache_valid_time: 3600
+            lock_timeout: 180
           when: ansible_os_family == "Debian"
 
         - name: Upgrade all packages
           apt:
             upgrade: dist
+            lock_timeout: 180
           when: ansible_os_family == "Debian"
