@@ -1,0 +1,14 @@
+- hosts: "{{ hosts }}"
+  become: yes
+  tasks:
+    - name: Update and upgrade Debian-based systems
+      block:
+        - name: Update the package list
+          apt:
+            update_cache: yes
+          when: ansible_os_family == "Debian"
+
+        - name: Upgrade all packages
+          apt:
+            upgrade: dist
+          when: ansible_os_family == "Debian"
