@@ -1,6 +1,3 @@
-- hosts: all
-  task:
-
 - name: packages | ensure apt list dir exists
   file:
     path: /var/lib/apt/lists/
