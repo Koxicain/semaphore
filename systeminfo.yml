@@ -1,0 +1,37 @@
+---
+- name: Gather system metrics and send to database
+  hosts: all
+  become: yes
+  tasks:
+    - name: Gather system information
+      setup:
+
+    - name: Check CPU usage
+      shell: "top -bn1 | grep 'Cpu(s)'"
+      register: cpu_usage
+
+    - name: Check Memory usage
+      shell: "free -m"
+      register: memory_usage
+
+    - name: Check Disk usage
+      shell: "df -h"
+      register: disk_usage
+
+    - name: Check running services
+      systemd:
+        name: "{{ item }}"
+        state: started
+      with_items:
+        - apache2
+        - mysql
+      register: service_status
+      ignore_errors: yes
+
+    - name: Display gathered information
+      debug:
+        msg: |
+          CPU Usage: {{ cpu_usage.stdout }}
+          Memory Usage: {{ memory_usage.stdout }}
+          Disk Usage: {{ disk_usage.stdout }}
+          Service Status: {{ service_status.results }}
